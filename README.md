@@ -6,5 +6,9 @@ So this code, returns the path of the dictionary needed for every matter. Copy i
 
 In case of you dont have the SecLists installed, the program install it for you.
 
+
 CU_CU_xii
+
+
+I´ll be adding more dictionary path finders soon.
 
