@@ -41,9 +41,9 @@ def finder(parameter):
         installed()
 
 
-def rayas():
-    raya = "-"
-    print(raya * 100)
+def lines():
+    line = "-"
+    print(line * 100)
 
 
 if len(sys.argv) == 1:
@@ -63,15 +63,15 @@ def installed():
 
 if len(sys.argv) == 2:
     parameter = param(arguments)
-    rutas = finder(parameter)
-    rayas()
+    paths = finder(parameter)
+    lines()
     print(" Parameter -->  {} " .format(parameter))
-    rayas()
-    for i in rutas:
+    lines()
+    for i in paths:
         i = i.decode('utf-8')
         if not re.match(r".*vscode.*", i):
             print("   {}" .format(i))
-    rayas()
+    lines()
 
 
 
