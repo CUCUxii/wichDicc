@@ -2,11 +2,14 @@
 
 import sys
 import subprocess
-from tabulate import tabulate
+try:
+    from tabulate import tabulate
+except ModuleNotFoundError:
+    print("Install tabulate please [sudo pip install tabulate]")
+    exit(1)
 import re
 
 arguments = ["domains", "subdomains", "chars", "wordpress"]
-
 
 def help():
     funciones = [["domains", "http//web.com --> http//web.something.com   "],
@@ -52,28 +55,34 @@ if len(sys.argv) == 1:
 
 def installed():
     print("You don have the SecList diccionary... let's intall it")
+    print("The SecLits is a big thins, it might take some minutes")
+    print("If it says [permission denied], run it as sudo")
     try:
         proc = subprocess.check_call(["/usr/bin/which git", ""], shell=True)
-        subprocess.run("git clone https://github.com/danielmiessler/SecLists.git", shell=True)
+        Repo_Path = "https://github.com/danielmiessler/SecLists.git"
+        subprocess.Popen(['git', 'clone', str(Repo_Path), '/usr/share/SecLists/' ])
     except subprocess.CalledProcessError as Error:
         subprocess.run("wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList.zip", shell=True)
         subprocess.run("unzip SecList.zip", shell=True)
         subprocess.run("rm -f SecList.zip", shell=True)
     finally:
         print("SecList installed in /usr/share/ directory")
+        exit(1)
 
 if len(sys.argv) == 2:
     parameter = param(arguments)
     paths = finder(parameter)
-    lines()
-    print(" Parameter -->  {} " .format(parameter))
-    lines()
-    for i in paths:
-        i = i.decode('utf-8')
-        if not re.match(r".*vscode.*", i):
-            print("   {}" .format(i))
-    lines()
-
+    if paths != []:
+        lines()
+        print(" Parameter -->  {} " .format(parameter))
+        lines()
+        for i in paths:
+            i = i.decode('utf-8')
+            if not re.match(r".*vscode.*", i):
+                print("   {}" .format(i))
+        lines()
+    else:
+        installed()
 
 
 
