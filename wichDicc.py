@@ -42,7 +42,7 @@ def finder(parameter):
         return out
     except FileNotFoundError:
         installed()
-        exit(1)
+       
 
 
 def lines():
