@@ -35,14 +35,10 @@ def param(arguments):
 
 
 def finder(parameter):
-    try:
-        proc = subprocess.Popen(["/usr/bin/find ~/ -name *{}*" .format(parameter), ""], stdout=subprocess.PIPE, shell=True)
-        (out,err) = proc.communicate()
-        out = out.split()
-        return out
-    except FileNotFoundError:
-        installed()
-       
+    proc = subprocess.Popen(["/usr/bin/find /usr/share/SecLists  -name *{}*" .format(parameter), ""], stdout=subprocess.PIPE, shell=True)
+    (out,err) = proc.communicate()
+    out = out.split()
+    return out
 
 
 def lines():
@@ -61,14 +57,12 @@ def installed():
         proc = subprocess.check_call(["/usr/bin/which git", ""], shell=True)
         Repo_Path = "https://github.com/danielmiessler/SecLists.git"
         subprocess.Popen(['git', 'clone', str(Repo_Path), '/usr/share/SecLists/' ])
-    except subprocess.CalledProcessError as Error:
-        subprocess.run("wget -c https://github.com/danielmiessler/SecLists/archive/master.zip -O SecList.zip", shell=True)
-        subprocess.run("unzip SecList.zip", shell=True)
-        subprocess.run("rm -f SecList.zip", shell=True)
-    finally:
         print("SecList installed in /usr/share/ directory")
         exit(1)
-
+    except subprocess.CalledProcessError as Error:
+        print("Install [sudo apt install git]")
+        exit(1)
+  
 if len(sys.argv) == 2:
     parameter = param(arguments)
     paths = finder(parameter)
@@ -83,7 +77,6 @@ if len(sys.argv) == 2:
         lines()
     else:
         installed()
-
 
 
 
